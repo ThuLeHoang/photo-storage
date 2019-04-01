@@ -1,19 +1,34 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Upload Images</title>
-</head>
-<body>
+@extends('layouts.app')
+
+@section('content')
 <div class="container">
 	<div class="">
 		<form action="upload" method="post" enctype="multipart/form-data" >
-			<input type="file" name="image" id="images">
+		<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			<input type="file" name="image[]" id="images" multiple="multiple"> </br>
+			
 			<input type="submit" name="submit" value="Upload">
-
-			<input type="hidden" name="_token" value="{{ csrf_token() }}">
+			
 		</form>
 	</div>
-
+	<script type="text/x-template" id="check-img"> </script>
+	<div id="img-preview">
+		<upload></upload>
+	</div>
 </div>
-</body>
-</html>
+
+@endsection
+
+<!-- <script type="text/javascript">
+// 	Vue.component('img-preview', {
+// 	template: '#check-img',
+// 	data() {
+// 		return { 
+// 			hasfile: true
+// 		 }
+// 	},
+// 	methods: {
+		
+// 	}
+// });
+<script> -->
