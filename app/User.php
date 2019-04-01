@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace Retro;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;

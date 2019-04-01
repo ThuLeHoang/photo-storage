@@ -1,23 +1,18 @@
 @extends('layouts.app')
-
+<!-- <meta name="csrf-token" content="{{ csrf_token() }}">
+<input type="hidden" name="_token" value="{{ csrf_token() }}"> -->
 @section('content')
-<!-- <div class="container">
+<div id='home'>
+<div class="">
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
-
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    You are logged in!
-                </div>
-            </div>
-        </div>
+        
+            @foreach ($Images as $image)
+            <div> <img src="{{ asset('images/' . $image->image) }}" width="300px" height="auto" /> </div>
+            @endforeach
+        
     </div>
-</div> -->
+</div>
+</div>
+
 @endsection
+<script src="{{ asset('js/app.js') }}" defer></script>
