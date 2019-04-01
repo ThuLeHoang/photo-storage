@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Retro\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Retro\Image;
 
 class HomeController extends Controller
 {
@@ -23,6 +24,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user_id = \Auth::user()->id;
+        $Images = Image::all()->where('user_id', $user_id);
+        // $Images = ""
+
+        return view('home', ['Images' => $Images]);
     }
+
+
 }
