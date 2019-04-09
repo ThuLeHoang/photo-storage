@@ -52,7 +52,7 @@
 </head>
 <body>
     <div id="app">
-            <nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-top">
+            <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
                 <div class="container-fluid">
                     <div class="navbar-header">
                       <a class="navbar-brand" href="{{ url('/') }}" style="font-family: Harlow Solid Italic">
@@ -97,7 +97,7 @@
                       </a>
                     </li> -->
                     <li class="nav-item dropdown">
-                                <a id="navbarDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                <a id="navbarDropdown" href="/home" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     <img id="img-acc" class="" src="./icons/account.png">
                                 </a>
 
