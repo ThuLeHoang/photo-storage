@@ -16,9 +16,9 @@ class CreateImagesTable extends Migration
         Schema::create('images', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('image');
-            $table->string('title');
-            $table->longText('description');
-            $table->boolean('public');
+            $table->string('title')->nullable();
+            $table->longText('description')->nullable();
+            $table->boolean('public')->nullable();
             $table->BigInteger('user_id')->unsigned()->nullable();
             $table->BigInteger('album_id')->unsigned()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
