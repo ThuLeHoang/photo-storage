@@ -28,7 +28,7 @@ class UploadController extends Controller
 			$image->image = $name;
 			$image->created_at=Input::get(now());
 			$image->updated_at=Input::get(now());
-			$image->user_id = $id;
+			// $image->user_id = $id;
 			$image->save();
 
 		}
