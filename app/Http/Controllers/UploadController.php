@@ -32,8 +32,8 @@ class UploadController extends Controller
 			$image->save();
 
 		}
-		return redirect('/home');
-		// return response()->json(['uploaded'=>'/upload'.$name]);
+		// return view('home');
+		return response()->json(['uploaded'=>'/upload'.$name]);
 
 		// $files = $request->file('file');
      	// if (Input::hasFile('image')) {

@@ -1,64 +1,62 @@
 @extends('layouts.app')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/> -->
+    <style type="text/css">
+        .main-region{
+            max-height: 300px;
+            width: 1000px;
+            background-color: #000;
+        }
+        .input{
+            width: 800px;
+            float: right;
+
+        }
+        .options{
+            float: left;
+        }
+    </style>
 @section('content')
 
 <div id="upload">
-    <div v-if="hasfile === false">
-        <form action="upload" method="post" enctype="multipart/form-data" >
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="file" name="image[]" id="images" multiple="multiple" @change="onFileChange"> </br>     
-        </form>        	
-    </div>
-
-	    <div v-else>
-    		<div class="gallery">
-                <div class="row">
-                    <div class="img"></div>
-                </div>
-    		</div>
-            <form action="upload" method="post" enctype="multipart/form-data" >
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="file" name="image[]" id="images" multiple="multiple" @change="onFileChange"> </br>     
-            
-                <input type="submit" name="submit" value="Upload">
-            </form>
-	    </div>
+    <form action="upload" method="post" enctype="multipart/form-data" >
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="main-region">
+            <div class="input">
+                <input type="file" name="image[]" id="images" accept="image/*" multiple="multiple"> </br>  
+            </div>
+		</div>
+    </form>        	
+    
 </div>
-
-<script type="text/javascript">
-var app = new Vue({
-	el: '#upload',
-	data() {
-        return {
-        	url: null,
-            hasfile: false
-        }
-    },
-    methods: {
-    	onFileChange(e) {
-    		this.hasfile = true;
-   //  		var selectedFiles = e.target.files;
-			// for (var i=0; i < selectedFiles.length; i++){
-			//     this.images.push(selectedFiles[i]);
-			// }
-
-			// for (var i=0; i<this.images.length; i++){
-			//     let reader = new FileReader(); //instantiate a new file reader
-			//     reader.addEventListener('load', function(){
-			//       this.$refs['img' + parseInt( i )][0].src = reader.result;
-			//     }.bind(this), false);  //add event listener
-
-			//     reader.readAsDataURL(this.images[i]);
-			// }
-    		
-    	}
-    }
-});
+    <script type="text/javascript">
+        $("#images").fileinput({
+            theme: 'fas',
+            uploadUrl: "{{route('image.upload')}}",
+            uploadExtraData: function() {
+                return {
+                    _token: "{{ csrf_token() }}",
+                };
+            },
+            allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+            overwriteInitial: false,
+            maxFileSize:12048,
+            maxFilesNum: 30,
+            showUploadedThumbs: false,
+            showClose: false,
+            layoutTemplates: {actionUpload: ''},
+        }).on('fileuploaded', function() {
+                $(window).load('/home');
+                console.log('File pre ajax triggered');
+        });
 </script>
 @endsection
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
 	$(function(){
         var imagesPreview = function(input, placeToInsertImagePreview) {
 
@@ -81,4 +79,4 @@ var app = new Vue({
             imagesPreview(this, 'div.img');
         });
     });
-</script>
+</script> -->
