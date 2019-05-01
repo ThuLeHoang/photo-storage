@@ -16,7 +16,7 @@ class UploadController extends Controller
     }
 
     public function upload(Request $request){
-		// $id = \Auth::user()->id;
+		$id = \Auth::user()->id;
 		foreach($request->file('image') as $key => $file)
 		{
 			$name=$file->getClientOriginalName();
@@ -28,7 +28,7 @@ class UploadController extends Controller
 			$image->image = $name;
 			$image->created_at=Input::get(now());
 			$image->updated_at=Input::get(now());
-			// $image->user_id = $id;
+			$image->user_id = $id;
 			$image->save();
 
 		}
