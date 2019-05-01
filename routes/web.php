@@ -20,4 +20,4 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/upload', 'UploadController@index')->name('upload');
 Route::post('upload', 'UploadController@upload');
-
+Route::get('/albums', 'AlbumsController@index')->name('albums');
