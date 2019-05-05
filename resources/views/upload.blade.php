@@ -1,84 +1,72 @@
+
 @extends('layouts.app')
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style type="text/css">
+        /*.main-region{
+            max-height: 300px;
+            width: 1000px;
+            background-color: #000;
+        }*/
+        .input{
+            width: 800px;
+            float: left;
+
+        }
+        .options{
+            float: left;
+        }
+        .input{
+            width: 900px;
+        }
+        .file-preview{
+            max-height: 300px; 
+            overflow: auto;
+        }
+    </style>
 @section('content')
 
 <div id="upload">
-    <div v-if="hasfile === false">
-        <form action="upload" method="post" enctype="multipart/form-data" >
-            <input type="hidden" name="_token" value="{{ csrf_token() }}">
-			<input type="file" name="image[]" id="images" multiple="multiple" @change="onFileChange"> </br>     
-        </form>        	
-    </div>
-
-	    <div v-else>
-    		<div class="gallery">
-                <div class="row">
-                    <div class="img"></div>
-                </div>
-    		</div>
-            <form action="upload" method="post" enctype="multipart/form-data" >
-                <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                <input type="file" name="image[]" id="images" multiple="multiple" @change="onFileChange"> </br>     
-            
-                <input type="submit" name="submit" value="Upload">
-            </form>
-	    </div>
+    <form action="upload" method="post" enctype="multipart/form-data" >
+        <input type="hidden" name="_token" value="{{ csrf_token() }}">
+        <div class="main-region">
+            <div class="input">
+                <input type="file" name="image[]" id="images" accept="image/*" multiple="multiple"> </br>  
+            </div>
+            <select class="form-control m-bot15" name="album_id">
+                <option disabled selected>Add to Album</option>
+                @if ($Albums->count())
+                    @foreach($Albums as $album)
+                        <option value="{{$album->id}}" name="">
+                            {{ $album->title }}
+                        </option>  
+                    @endforeach
+                @endif
+            </select>
+            <span>Public</span><input type="checkbox" name="public"> 
+        </div>
+        <button type="submit">Upload</button>
+    
 </div>
-
-<script type="text/javascript">
-var app = new Vue({
-	el: '#upload',
-	data() {
-        return {
-        	url: null,
-            hasfile: false
-        }
-    },
-    methods: {
-    	onFileChange(e) {
-    		this.hasfile = true;
-   //  		var selectedFiles = e.target.files;
-			// for (var i=0; i < selectedFiles.length; i++){
-			//     this.images.push(selectedFiles[i]);
-			// }
-
-			// for (var i=0; i<this.images.length; i++){
-			//     let reader = new FileReader(); //instantiate a new file reader
-			//     reader.addEventListener('load', function(){
-			//       this.$refs['img' + parseInt( i )][0].src = reader.result;
-			//     }.bind(this), false);  //add event listener
-
-			//     reader.readAsDataURL(this.images[i]);
-			// }
-    		
-    	}
-    }
-});
+    <script type="text/javascript">
+        $("#images").fileinput({
+            theme: 'fas',
+            uploadUrl: "{{route('image.upload')}}",
+            uploadExtraData: function() {
+                return {
+                    _token: "{{ csrf_token() }}",
+                };
+            },
+            allowedFileExtensions: ['jpg', 'png', 'gif','jpeg'],
+            overwriteInitial: false,
+            maxFileSize:12048,
+            maxFilesNum: 30,
+            showUploadedThumbs: false,
+            showClose: false,
+            showUpload: false,
+            layoutTemplates: {actionUpload: ''},
+        }).on('fileuploaded', function() {
+                location.assign("/home");
+        });
 </script>
 @endsection
-
-<script type="text/javascript">
-	$(function(){
-        var imagesPreview = function(input, placeToInsertImagePreview) {
-
-            if (input.files) {
-                var filesAmount = input.files.length;
-                // hasfile= true;
-                for (i = 0; i < filesAmount; i++) {
-                    var reader = new FileReader();
-                    reader.onload = function(event) {
-                        $($.parseHTML('<img style="max-width: 250px; max-height: 200px;">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
-                    }
-
-                    reader.readAsDataURL(input.files[i]);
-                }
-            }
-
-        };
-
-        $('#images').on('change', function() {
-            imagesPreview(this, 'div.img');
-        });
-    });
-</script>
