@@ -32,9 +32,7 @@ class UploadController extends Controller
         $user_id = \Auth::user()->id;
         $Albums = DB::table('albums')->where('user_id', $user_id)->orderBy('created_at', 'DESC');
         $Albums = $Albums->get();
-    	// return view('upload');
-        return view('upload', ['Albums' => $Albums]);
-    	
+        return view('upload', ['Albums' => $Albums]);    	
     }
 
     public function upload(Request $request){
@@ -46,16 +44,13 @@ class UploadController extends Controller
 			$name=$file->getClientOriginalName();
 			$destinationPath = public_path('/images');
 			$file->move($destinationPath, $name);
-
 			$image = new Image();
 			$image->image = $name;
 			$image->user_id = $id;
-            $image->album_id = $album_id;
-            $image->public = $public;
+      $image->album_id = $album_id;
+      $image->public = $public;
 			$image->save();
-
-		}
-		// return response()->json(['uploaded'=>'/upload'.$name]);     
+		}   
         return redirect('/home');	
     }
 
@@ -73,9 +68,9 @@ class UploadController extends Controller
     public function update(Request $request){
         $image = Image::find($id);
         $image = update($request->all());
-        // $image->title = $request->input('title');
-        // $image->description = $request->input('description');
-        // $image->save();
+        $image->title = $request->input('title');
+        $image->description = $request->input('description');
+        $image->save();
         return redirect('/home')->with('image', $image);
     }
 }
