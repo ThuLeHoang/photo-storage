@@ -4,7 +4,7 @@ namespace Retro;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Image extends Model
+class Album extends Model
 {
-    protected $primaryKey = 'id';
+    //
 }

@@ -4,6 +4,8 @@ namespace Retro\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Retro\Image;
+use DB;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -25,8 +27,8 @@ class HomeController extends Controller
     public function index()
     {
         $user_id = \Auth::user()->id;
-        $Images = Image::all()->where('user_id', $user_id);
-        // $Images = ""
+        $Images = DB::table('images')->where('user_id', $user_id)->orderBy('created_at', 'DESC');
+        $Images = $Images->get();
 
         return view('home', ['Images' => $Images]);
     }

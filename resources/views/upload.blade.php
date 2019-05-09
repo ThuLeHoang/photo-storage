@@ -1,27 +1,41 @@
-@extends('layouts.app')
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 
-<!-- <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-fileinput/4.4.7/css/fileinput.css" media="all" rel="stylesheet" type="text/css"/>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css"/> -->
+@extends('layouts.app')
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <style type="text/css">
-        .main-region{
+        /*.main-region{
             max-height: 300px;
             width: 1000px;
             background-color: #000;
-        }
+        }*/
         .input{
             width: 800px;
-            float: right;
+            float: left;
 
         }
         .options{
             float: left;
         }
+        .input{
+            width: 900px;
+        }
+        .file-preview{
+            max-height: 300px; 
+            overflow: auto;
+        }
+        #upload{
+            text-align: center;
+        }
+        #section{
+            max-width: 200px;
+        }
+        #checkbox{
+            width: 20px;
+            height: 20px;
+        }
     </style>
 @section('content')
-
+<div class="container">
 <div id="upload">
     <form action="upload" method="post" enctype="multipart/form-data" >
         <input type="hidden" name="_token" value="{{ csrf_token() }}">
@@ -29,9 +43,25 @@
             <div class="input">
                 <input type="file" name="image[]" id="images" accept="image/*" multiple="multiple"> </br>  
             </div>
-		</div>
-    </form>        	
-    
+            <select class="form-control m-bot15" name="album_id" id="section">
+                <option disabled selected>Add to Album</option>
+                @if ($Albums->count())
+                    @foreach($Albums as $album)
+                        <option value="{{$album->id}}" name="">
+                            {{ $album->title }}
+                        </option>  
+                    @endforeach
+                @endif
+            </select>
+        </br>
+            <div class="row">
+                <div style="margin-left: 30px; margin-right: 30px;">Public</div>
+                <div class=""><input style="text-align: left;" type="checkbox" name="public" id="checkbox"></div> 
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary" style="margin-top: 180px;">Upload</button>
+    </form>
+</div>
 </div>
     <script type="text/javascript">
         $("#images").fileinput({
@@ -48,35 +78,10 @@
             maxFilesNum: 30,
             showUploadedThumbs: false,
             showClose: false,
+            showUpload: false,
             layoutTemplates: {actionUpload: ''},
         }).on('fileuploaded', function() {
-                $(window).load('/home');
-                console.log('File pre ajax triggered');
+                location.assign("/home");
         });
 </script>
 @endsection
-
-<!-- <script type="text/javascript">
-	$(function(){
-        var imagesPreview = function(input, placeToInsertImagePreview) {
-
-            if (input.files) {
-                var filesAmount = input.files.length;
-                // hasfile= true;
-                for (i = 0; i < filesAmount; i++) {
-                    var reader = new FileReader();
-                    reader.onload = function(event) {
-                        $($.parseHTML('<img style="max-width: 250px; max-height: 200px;">')).attr('src', event.target.result).appendTo(placeToInsertImagePreview);
-                    }
-
-                    reader.readAsDataURL(input.files[i]);
-                }
-            }
-
-        };
-
-        $('#images').on('change', function() {
-            imagesPreview(this, 'div.img');
-        });
-    });
-</script> -->

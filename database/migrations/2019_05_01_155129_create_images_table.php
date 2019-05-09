@@ -14,12 +14,15 @@ class CreateImagesTable extends Migration
     public function up()
     {
         Schema::create('images', function (Blueprint $table) {
-            $table->increments('image_id');
-            $table->integer('user_id');
+            $table->bigIncrements('id');
             $table->string('image');
-            $table->integer('album_id');
-            $table->string('title');
-            $table->string('description');            
+            $table->string('title')->nullable();
+            $table->longText('description')->nullable();
+            $table->boolean('public')->nullable();
+            $table->BigInteger('user_id')->unsigned()->nullable();
+            $table->BigInteger('album_id')->unsigned()->nullable();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('SET NULL');
+            $table->foreign('album_id')->references('id')->on('albums')->onDelete('SET NULL');
             $table->timestamps();
         });
     }
